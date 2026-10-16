@@ -1,13 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="media/img/logo.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mision2</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Taylor Search</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+
+      <!-- Encabezado con título -->
+      <header class="header">
+        <h1>Taylor Search</h1>
+        <p>Taylor Swift Song Finder</p>
+      </header>
+
+      <!-- Buscador y botones -->
+      <main>
+        <div class="contenedor">
+          <div class="controles">
+            <input type="text" id="buscador" placeholder="Buscar canción (ej: love, red, story)...">
+            <button id="btn-buscar" class="boton">Buscar</button>
+            <button id="btn-limpiar-cache" class="boton">Limpiar caché</button>
+          </div>
+          
+          <!-- Mensajes de Carga o Error -->
+          <div id="contenedorEstado"></div>
+
+          <!-- Grid donde aparecerán las canciones -->
+          <div id="contenedorCanciones"></div>
+        </div>
+      </main>
+
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

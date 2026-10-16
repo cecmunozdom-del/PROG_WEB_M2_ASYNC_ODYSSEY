@@ -1,0 +1,214 @@
+:root{
+  --bg-color: black;
+  --bg-image: url('media/img/background.jpg');
+  --card-bg: var(--bluetv);
+  --text-color: white;
+
+  --text-main: white;
+  --text-muted: #e2e8f0;
+  
+  --accent: var(--pinktv);
+  --accent-hover: var(--fucsiatv);
+  --error: red; 
+
+  --pinktv: #F2AED4;
+  --fucsiatv: #D95592;
+  --bluetv: #6CBAD9;
+  --yellowtv: #F2DCB3;
+}
+
+
+/* Fuentes */
+@font-face {
+  font-family: reputation;
+  src: url('media/fonts/reputation.ttf');
+}
+
+@font-face {
+  font-family: folkmore;
+  src: url('media/fonts/folkloreEvermore.ttf');
+}
+
+@font-face {
+  font-family: erasTour;
+  src: url('media/fonts/erasTour.ttf');
+}
+
+/* Body y main */
+body {
+  margin: 0;
+  /* si por lo que sea el dispositivo falla al cargar una fuente, cargará la siguiente */
+  /* la de system-ui será la fuente nativa por defecto del dispositivo*/
+  font-family: erasTour, system-ui, sans-serif; 
+  color: var(--text-color);
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.header {
+  text-align: center;
+  padding: 20px 10px;
+  background: linear-gradient(135deg, var(--pinktv), var(--bluetv));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.header > h1 {
+  margin: 0;
+  font-size: 6 em;
+}
+
+.header > p {
+  margin-top: 5px;
+  font-size: 3 em;
+}
+
+main {
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 120px); /* sin esto se queda un hueco feo (resta el alto total - el header)*/
+  width: 100%;
+}
+
+.contenedor {
+  max-width: 1100px; /* Ampliado para permitir varias columnas de tarjetas */
+  margin: 0 auto;   /* Centrado horizontal */
+  padding: 30px 20px;
+}
+
+/* Panel del buscador y botón */
+.controles {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+#buscador {
+  flex: 1;
+  min-width: 250px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+}
+
+#buscador:focus { /* para cambiar en ete caso el borde cuando el usuario haga click en el cuadro de búsqueda*/
+  border-color: var(--pinktv);
+}
+
+.boton {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--fucsiatv);
+  color: var(--text-color);
+  font-size: 2em;
+  font-family: erasTour;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.boton:hover {
+  background-color: var(--bluetv);
+}
+
+/* Rejilla de tarjetas de canciones */
+#contenedorCanciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  /* se repite esa estructura, la adapta automáticamente al dispositivo 
+  según las columnas que quepan y le pone de mínimo 220px de ancho
+  y de máximo 1fr (fracción de espacio libre, para que se estiren si sobra 
+  espacio para rellenar el contenedor
+  */
+  gap: 20px;
+}
+
+/* Tarjeta individual de canción */
+.card-cancion {
+  background-color: rgba(28, 25, 23, 0.85); /* Fondo oscuro semitransparente */
+  border: 2px solid var(--bluetv);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-cancion:hover {
+  transform: translateY(-5px);
+  border-color: var(--pinktv);
+  box-shadow: 0 8px 20px rgba(242, 174, 212, 0.4);
+}
+
+.cover-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.titulo-cancion {
+  margin: 6px 0 4px 0;
+  font-size: 1.1rem;
+  color: var(--pinktv);
+}
+
+.album-cancion {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--yellowtv);
+}
+
+.duracion-cancion {
+  margin: 8px 0;
+  font-size: 0.85rem;
+  color: var(--bluetv);
+  font-weight: bold;
+}
+
+/* Reproductor de audio */
+audio {
+  width: 100%;
+  height: 35px;
+  margin-top: 10px;
+}
+
+/* Mensajes de estado */
+.estado-box {
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: rgba(242, 220, 179, 0.9);
+  color: #1e293b;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.estado-box.error {
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid var(--error);
+  color: #fca5a5;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #334155;
+  border-top-color: var(--pinktv);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
