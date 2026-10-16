@@ -5,23 +5,26 @@ export function transformCancion(canciones){
   return canciones.map((cancion) => {
 
     //converisón de milisegundos a minutos:segundos
-    /*
     const segundosTotales = Math.floor ((cancion.trackTimeMillis)/1000);
     const minutos = Math.floor(segundosTotales/60);
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    const segundos = String(segundosTotales % 60).padStart(2, '0');
     //padStart -> cuando los segundos sean de un dígito le pone un 0 delante
-    */// esto con pinzas, quiero comprobar cómo sale sin esto
-    
+    //esto recibe String por lo tanto calculamos el resto (los segundos) y lo transformamos
+
+    let audioUrl = cancion.previewUrl || '';
+    if (audioUrl.startsWith('http://')) {
+      audioUrl = audioUrl.replace('http://', 'https://');
+    }
+
     //por cada canción devolvemos un objeto con estas características:
     return{
       id: cancion.trackId,
       titulo: cancion.trackName,
       album: cancion.collectionName,
       cover: cancion.artworkUrl100,
-      //duracion: `${minutos}:${segundos}`,
-      duracion: cancion.trackTimeMillis,
+      duracion: `${minutos}:${segundos}`,
       explicito: cancion.explicitness,
-      preview: cancion.previewUrl
+      preview: audioUrl
     };
 
   });

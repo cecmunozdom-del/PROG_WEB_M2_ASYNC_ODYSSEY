@@ -1,9 +1,9 @@
 //Funciones importadas
 import { fetchCanciones } from './api.js';
-import { transformCancion, filtrandoCanciones } from './logic.js';
+import { transformCancion, filtrandoCanciones } from './logica.js';
 import { mostrarCargando, mostrarVacio, mostrarError, mostrarTarjetas } from './render.js';
 
-const listaCanciones = []; //lista global de canciones para guardar las ya "limpias"
+let listaCanciones = []; //lista global de canciones para guardar las ya "limpias"
 
 
 //FUNCIÓN PRINCIPAL DE APP
@@ -35,32 +35,31 @@ async function iniciarApp() {
     mostrarError(contenedorEstado, error.message);
   }
 
+  //EVENTOS
+  //búsqueda en tiempo real
+  inputBuscador.addEventListener('input', (evento) => {
+
+    //le pasamos el texto introducido para que filtre todas las canciones
+    const textoBuscado = evento.target.value;
+    const cancionesFiltradas = filtrandoCanciones(listaCanciones,textoBuscado);
+
+    //si no se encuentran mostramos el mensaje correspondiente
+    if(cancionesFiltradas.length === 0){
+      contenedorCanciones.innerHTML = ''; //limpio de canciones anteriores
+      mostrarVacio(contenedorEstado);
+    }else{
+      contenedorEstado.innerHTML = ''; //quitamos los mensajes que hubiera
+      mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
+    }
+
+  });
+
+  //evento botón de limpiar caché  
+  botonCache.addEventListener('click', () => {
+    localStorage.clear(); //se vacía la memoria que estuviese guardada del navegador
+    window.alert("Caché eliminada.")
+    window.location.reload(); //recarga la página web 
+  });
 }
+
 iniciarApp();
-
-
-//EVENTOS
-//búsqueda en tiempo real
-inputBuscador.addEventListener('input', (evento) => {
-
-  //le pasamos el texto introducido para que filtre todas las canciones
-  const textoBuscado = evento.target.value;
-  const cancionesFiltradas = filtrandoCanciones(listaCanciones,textoBuscado);
-
-  //si no se encuentran mostramos el mensaje correspondiente
-  if(cancionesFiltradas.length === 0){
-    contenedorCanciones.innerHTML = ''; //limpio de canciones anteriores
-    mostrarVacio(contenedorEstado);
-  }else{
-    contenedorEstado.innerHTML = ''; //quitamos los mensajes que hubiera
-    mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
-  }
-
-});
-
-//evento botón de limpiar caché  
-botonCache.addEventListener('click', () => {
-  localStorage.clear(); //se vacía la memoria que estuviese guardada del navegador
-  window.alert("Caché eliminada.")
-  window.location.reload(); //recarga la página web 
-});

@@ -33,12 +33,12 @@ export function mostrarTarjetas(contenedor, canciones){
 
     const htmlCanciones = canciones.map((cancion) => 
         `<div class="tarjetaCancion">
-        <img src="${cancion.cover}" alt="${cancion.titulo}" class="coverImg"/>
+        <img src="${cancion.cover}" alt="${cancion.titulo}" class="coverImg" loading="lazy"/>
         <h2 class="tituloCancion">${cancion.titulo}</h2>
         <p class="albumCancion">💿 ${cancion.album}</p>
         <p class="duracionCancion">⏱️ ${cancion.duracion}</p>${
             //control por si la canción carece de preview
-            cancion.preview ? `<audio controls src="${cancion.preview}"></audio>` : `<p class="sin-audio">Sin vista previa de audio</p>`
+            cancion.preview ? `<audio controls src="${cancion.preview}"></audio>` : `<p class="sin-audio">Sin vista previa</p>`
         }
         </div>`
     ).join(''); //esto convierte el array de strings HTML en un único string de texto

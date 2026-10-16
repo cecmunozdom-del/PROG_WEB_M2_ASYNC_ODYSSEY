@@ -6,8 +6,8 @@ Misión M2 · Async Odyssey — Web Development I.
 Abre el proyecto en tu navegador y usa el buscador para encontrar la canción (o canciones) de Taylor Swift que coincidan con tu búsqueda. Si no estás familiarizado con su discografía, prueba a escibir palabras genéricas en inglés, como 'Love', 'You', 'My'. La web devolverá todas las canciones cuyo título contenga lo que haya escrito el usuario.
 
 Posibles funcionalidades a futuro:
--> Escribir título de un albúm y que devuelve todas las canciones que contiene.
--> Escribir parte de una letra y que devuelva la canción que corresponde.
+    - Escribir título de un albúm y que devuelve todas las canciones que contiene.
+    - Escribir parte de una letra y que devuelva la canción que corresponde.
 
 
 ## Uso de IA
@@ -19,12 +19,16 @@ También utilicé Gemini para arreglar y decorar la web, ayudándome con cosas m
 
 Para el main.js me dió algunas instrucciones, correcciones, e ideas muy buenas. Sobre todo lo utilicé para que me recordara el orden y el flujo que debía seguir (primero pedir las canciones, luego limpiar esos datos, y luego mostrar las tarjetas con las canciones).
 
+También me ayudó a la hora de hacer el bonus, ya que a pesar de que había investigado cómo funcionaba localStorage para el proyecto anterior, no sabía muy bien cómo hacer el proceso de guardar datos para este.
 
+Hacia la parte final del trabajo, Gemini también me ayudó a corregir los errores que me fui encontrando cuando comencé a probar la app completa por primera vez.
 
-
+Algunos ejemplos de prompts:
+"Antes de empezar, dime cómo suele ser la estructura de este tipo de proyectos, y explícame los conceptos básicos sobre async y wait".
+"¿Qué diferencia hay entre json y JSON?" (json en minúsculas es un método propio de la respuesta que se devuelve al usar fetch, y JSON hace referencia al propio objeto con sus respectivos métodos).
+"Me ha salido este error: ⚠️¡Ups! Algo salió mal: Assignment to constant variable, y no encuentro de dónde proviene" (Era porque había declarado un array como const que sufría más tarde una reasignación).
 
 ## Autopsia
-1. 
+1. La primera decisión difícil que tuve que tomar fue qué API utilizar, ya que como he explicado previamente, las APIs hechas por usuarios sobre Taylor Swift no funcionaban bien, o daban muy pocos datos útiles. Fue Gemini quien me dió la idea de hacerlo con la API de AppleMusic, modificando ligeramente el enlace para obtener sólo las canciones de Taylor Swift. También fue el que me corregió cuando quise utilizar la de Spotify, la cual requiere uso de tokens y verificaciones complejas.
 
-
-2. 
+2. La segunda decisión difícil fue cómo tratar con los datos brutos que devolvía la API de iTunes, sobre todo pensando en cómo mostrarlos. En concreto me refiero a cómo mostrar la duración de las canciones, ya que se podía hacer de varias maneras, pero la más corta y correcta requería varias transformaciones en muy pocos pasos. Para esto me ayudé de Gemini que me descubrió la función padStart, la cual fue sumamente útil, ya que mi primer instinto para evitar que los segundos menores que diez se vieran con un solo dígito era utilizar ifs básicos, lo cual hubiera generado un código muy largo y básico.
