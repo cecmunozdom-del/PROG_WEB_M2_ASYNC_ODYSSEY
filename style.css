@@ -92,7 +92,7 @@ main {
   border: 1px solid #334155;
   background-color: rgba(0, 0, 0, 0.6);
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: 2 em;
   outline: none;
 }
 
@@ -106,7 +106,7 @@ main {
   border: none;
   background-color: var(--fucsiatv);
   color: var(--text-color);
-  font-size: 2em;
+  font-size: 2 em;
   font-family: erasTour;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -129,7 +129,7 @@ main {
 }
 
 /* Tarjeta individual de canción */
-.card-cancion {
+.tarjetaCancion {
   background-color: rgba(28, 25, 23, 0.85); /* Fondo oscuro semitransparente */
   border: 2px solid var(--bluetv);
   border-radius: 12px;
@@ -142,13 +142,13 @@ main {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.card-cancion:hover {
+.tarjetaCancion:hover {
   transform: translateY(-5px);
   border-color: var(--pinktv);
   box-shadow: 0 8px 20px rgba(242, 174, 212, 0.4);
 }
 
-.cover-img {
+.coverImg{
   width: 130px;
   height: 130px;
   border-radius: 8px;
@@ -156,21 +156,21 @@ main {
   margin-bottom: 12px;
 }
 
-.titulo-cancion {
+.tituloCancion {
   margin: 6px 0 4px 0;
-  font-size: 1.1rem;
+  font-size: 2 em;
   color: var(--pinktv);
 }
 
-.album-cancion {
+.albumCancion {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1 em;
   color: var(--yellowtv);
 }
 
-.duracion-cancion {
+.duracionCancion {
   margin: 8px 0;
-  font-size: 0.85rem;
+  font-size: 1 em;
   color: var(--bluetv);
   font-weight: bold;
 }
@@ -183,7 +183,7 @@ audio {
 }
 
 /* Mensajes de estado */
-.estado-box {
+.cajaEstado {
   text-align: center;
   padding: 20px;
   border-radius: 8px;
@@ -193,7 +193,7 @@ audio {
   font-weight: bold;
 }
 
-.estado-box.error {
+.cajaEstado.error {
   background-color: rgba(239, 68, 68, 0.2);
   border: 1px solid var(--error);
   color: #fca5a5;

@@ -15,7 +15,7 @@ Al inicio del proyecto, he usado la IA de Gemini para entender mejor tanto la es
 
 A la hora de elegir la API, en lugar de una exclusiva con datos sobre la discografía de Taylor Swift (las que encontré o funcionaban mal o tenían muy pocos datos), Gemini me recomendó utilizar la API de AppleMusic para sacar todos los datos que yo quería (título de la canción, álbum al que pertenece, duración). Debido a esto le pregunté si no podía usar la de Spotify (ya que es lo que yo utilizo para escuchar música y estoy más familiarizada con ello), pero resulta que para usarla se requiere identificación y uso de tokens, dificultando bastante el proceso. Por eso finalmente usé la de Apple, es muchísimo más fácil de usar (se guarda el link en una constante y ya).
 
-También utilicé Gemini para arreglar y decorar la web, ayudándome con cosas más complejas de css que no hubiera sabido hacer o no se me hubieran ocurrido a mí sola.
+También utilicé Gemini para arreglar y decorar la web, ayudándome con cosas más complejas de css que no hubiera sabido hacer o no se me hubieran ocurrido a mí sola. A la hora de realizar el archivo render.js, también me sirvió de ayuda, ya que al pedirle un ejemplo de cómo se haría, vi que usaba innerHTML. Al preguntarle, me explicó que a pesar de que innerHTML da lugar a inyecciones de código y ataque XSS ya que parsea el input directamente a HTML, la alternativa no era mejor. Se podía hacer de otra forma, creando elementos directamente con document.createElement e ir añadiéndoles clases e ids, pero claro, habría que hacer para cada álbum, título, o audio necesitaría muchas líneas de código solo para crear y unir los elementos, por lo que no era rentable.
 
 ## Autopsia
 1. 
