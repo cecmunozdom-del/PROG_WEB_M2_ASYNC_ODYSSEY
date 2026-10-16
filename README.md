@@ -1,2 +1,23 @@
-# PROG_WEB_M2_ASYNC_ODYSSEY
+# Taylor Search
 
+Misión M2 · Async Odyssey — Web Development I.
+
+## Cómo probarlo
+Abre el proyecto en " sitio " y encuentra la canción (o canciones) de Taylor Swift que coincidan con tu búsqueda. Si no estás familiarizado con su discografía, prueba a escibir palabra genéricas en inglés, como 'Love', 'You', 'My'. En principio esta web devolverá todas las canciones cuyo título contenga lo que haya escrito el usuario.
+
+Funcionalidades más a futuro:
+-> Escribir título de un albúm y que devuelve todas las canciones que contiene.
+-> Escribir parte de una letra y que devuelva la canción que corresponde.
+
+
+## Uso de IA
+Al inicio del proyecto, he usado la IA de Gemini para entender mejor tanto la estructura del proyecto como algunos conceptos que no había comprendido del todo del tema 2 (le pedí definiciones y ejemplos de async y await, de export, etc).
+
+A la hora de elegir la API, en lugar de una exclusiva con datos sobre la discografía de Taylor Swift (las que encontré o funcionaban mal o tenían muy pocos datos), Gemini me recomendó utilizar la API de AppleMusic para sacar todos los datos que yo quería (título de la canción, álbum al que pertenece, duración). Debido a esto le pregunté si no podía usar la de Spotify (ya que es lo que yo utilizo para escuchar música y estoy más familiarizada con ello), pero resulta que para usarla se requiere identificación y uso de tokens, dificultando bastante el proceso. Por eso finalmente usé la de Apple, es muchísimo más fácil de usar (se guarda el link en una constante y ya).
+
+
+## Autopsia
+1. 
+
+
+2. 

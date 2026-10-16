@@ -1,22 +1,22 @@
-import { fetchSongs } from './api.js';
-import { transformSongs, filterSongsByQuery } from './logic.js';
+import { fetchCanciones } from './api.js';
+import { transformCancion, filtrandoCanciones } from './logic.js';
 
-async function testLogic() {
+async function prueba() {
   try {
-    // 1. Pedimos datos a la API
-    const rawData = await fetchSongs();
+    //Pedimos datos a la API
+    const datos = await fetchCanciones();
 
-    // 2. Transformamos con .map()
-    const cleanSongs = transformSongs(rawData);
-    console.log('1. Canciones limpias y transformadas:', cleanSongs);
+    //Transformamos con .map()
+    const datosLimpios = transformCancion(datos);
+    console.log('1. Canciones limpias y transformadas:', datosLimpios);
 
     // 3. Probamos filtrar buscando la palabra "Love"
-    const searchResult = filterSongsByQuery(cleanSongs, 'love');
-    console.log('2. Canciones que contienen la palabra "Love":', searchResult);
+    const datosBusqueda = filtrandoCanciones(datosLimpios, 'love');
+    console.log('2. Canciones que contienen la palabra "Love":', datosBusqueda);
 
   } catch (error) {
     console.error('Error:', error.message);
   }
 }
 
-testLogic();
+prueba();
