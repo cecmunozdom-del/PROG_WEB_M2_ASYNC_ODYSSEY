@@ -1,22 +1,66 @@
+//Funciones importadas
 import { fetchCanciones } from './api.js';
 import { transformCancion, filtrandoCanciones } from './logic.js';
+import { mostrarCargando, mostrarVacio, mostrarError, mostrarTarjetas } from './render.js';
 
-async function prueba() {
-  try {
-    //Pedimos datos a la API
-    const datos = await fetchCanciones();
+const listaCanciones = []; //lista global de canciones para guardar las ya "limpias"
 
-    //Transformamos con .map()
-    const datosLimpios = transformCancion(datos);
-    console.log('1. Canciones limpias y transformadas:', datosLimpios);
 
-    // 3. Probamos filtrar buscando la palabra "Love"
-    const datosBusqueda = filtrandoCanciones(datosLimpios, 'love');
-    console.log('2. Canciones que contienen la palabra "Love":', datosBusqueda);
+//FUNCIÓN PRINCIPAL DE APP
+async function iniciarApp() {
+  
+  //referencias a los elementos del DOM
+  const inputBuscador = document.getElementById('buscador');
+  const contenedorEstado = document.getElementById('contenedorEstado');
+  const contenedorCanciones = document.getElementById('contenedorCanciones');
+  const botonCache = document.getElementById('botonCache');
 
-  } catch (error) {
-    console.error('Error:', error.message);
+  //mostramos el estado de carga
+  mostrarCargando(contenedorEstado);
+
+  try{
+    //pedimos las canciones (información en bruto)
+    const cancionesBruto = await fetchCanciones();
+
+    //las "limpiamos" con la función de logic:
+    listaCanciones = transformCancion(cancionesBruto);
+
+    //ocultamos el mensaje de carga
+    contenedorEstado.innerHTML = '';
+
+    //ponemos las tarjetas de las canciones que hayan salido
+    mostrarTarjetas(contenedorCanciones, listaCanciones);
+
+  } catch (error){
+    mostrarError(contenedorEstado, error.message);
   }
-}
 
-prueba();
+}
+iniciarApp();
+
+
+//EVENTOS
+//búsqueda en tiempo real
+inputBuscador.addEventListener('input', (evento) => {
+
+  //le pasamos el texto introducido para que filtre todas las canciones
+  const textoBuscado = evento.target.value;
+  const cancionesFiltradas = filtrandoCanciones(listaCanciones,textoBuscado);
+
+  //si no se encuentran mostramos el mensaje correspondiente
+  if(cancionesFiltradas.length === 0){
+    contenedorCanciones.innerHTML = ''; //limpio de canciones anteriores
+    mostrarVacio(contenedorEstado);
+  }else{
+    contenedorEstado.innerHTML = ''; //quitamos los mensajes que hubiera
+    mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
+  }
+
+});
+
+//evento botón de limpiar caché  
+botonCache.addEventListener('click', () => {
+  localStorage.clear(); //se vacía la memoria que estuviese guardada del navegador
+  window.alert("Caché eliminada.")
+  window.location.reload(); //recarga la página web 
+});
