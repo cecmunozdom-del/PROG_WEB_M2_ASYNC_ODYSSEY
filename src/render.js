@@ -1,3 +1,18 @@
+//corrección importante -> para evitar inyecciones XSS 
+//cómo funciona -> si la API devuelve un texto que contenga caracteres "peligrosos", los
+//sustituye por su alternativa segura, evitando inyecciones
+export function escaparHTML(texto) {
+  if (!texto) return '';
+  return String(texto)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+//la g significa global (reemplaza todas las apariciones de ese carácter en el texto, no solo la primera)
+
+
 //estado de carga -> spinner
 export function mostrarCargando(contenedor){
     contenedor.innerHTML = `
@@ -12,16 +27,18 @@ export function mostrarCargando(contenedor){
 export function mostrarVacio(contenedor){
     contenedor.innerHTML = `
     <div class="cajaEstado">
-      <p>🔍 No se han encontrado canciones que coincidan con la búsqueda. </p>
+      <p> No se han encontrado canciones que coincidan con la búsqueda. </p>
     </div>`;
 }
 
 
 //mostrando estado de error
 export function mostrarError(contenedor, mensaje){
+    const mensajeSeguro = escaparHTML(mensaje);
     contenedor.innerHTML = `
     <div class="cajaEstado error">
-      <p>⚠️<b>¡Ups! Algo salió mal: </b> ${mensaje}</p>
+      <p>⚠️<b>¡Ups! Algo salió mal: </b> ${mensajeSeguro}</p>
+      <button id="botonReintentar" class="boton" style="margin-top: 10px; font-size: 1rem;"> Reintentar </button>
     </div> `;
 }
 
@@ -38,24 +55,30 @@ export function mostrarTarjetas(contenedor, canciones){
     
     contenedor.innerHTML=''; //limpiamos por si hubiera algo previo
     //control errores por si no hay canciones
-    if(canciones.length == 0 || !canciones){
+    if (!canciones || canciones.length === 0) {
         mostrarVacio(contenedor); //lamará a mostrarVacio()
         return;
     }
 
-    const htmlCanciones = canciones.map((cancion) => 
-        `<div class="tarjetaCancion">
-        <img src="${cancion.cover}" alt="${cancion.titulo}" class="coverImg" loading="lazy"/>
-        <h2 class="tituloCancion">${cancion.titulo}</h2>
-        <p class="albumCancion">💿 ${cancion.album}</p>
-        <p class="duracionCancion">⏱️ ${cancion.duracion}</p>${
-            //control por si la canción carece de preview
-            cancion.preview ? `<audio controls src="${cancion.preview}"></audio>` : `<p class="sin-audio">Sin vista previa</p>`
+    const htmlCanciones = canciones.map((cancion) => {
+      const tituloSeguro = escaparHTML(cancion.titulo);
+      const albumSeguro = escaparHTML(cancion.album);
+      const coverSeguro = escaparHTML(cancion.cover);
+      const previewSegura = escaparHTML(cancion.preview);
+
+      return `<div class="tarjetaCancion">
+        <img src="${coverSeguro}" alt="${tituloSeguro}" class="coverImg" loading="lazy" />
+        <h2 class="tituloCancion">${tituloSeguro}</h2>
+        <p class="albumCancion">💿 ${albumSeguro}</p>
+        <p class="duracionCancion">⏱️ ${cancion.duracion}</p>
+        ${
+          previewSegura
+            ? `<audio controls src="${previewSegura}"></audio>`
+            : `<p class="sin-audio">Sin vista previa de audio</p>`
         }
-        </div>`
-    ).join(''); //esto convierte el array de strings HTML en un único string de texto
+      </div>`;
+    })
+    .join('');
 
-    //ahora se inyecta el HTML directo al DOM
-    contenedor.innerHTML = htmlCanciones;
-
+  contenedor.innerHTML = htmlCanciones;
 }

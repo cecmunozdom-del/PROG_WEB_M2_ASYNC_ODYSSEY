@@ -1,4 +1,5 @@
 const CACHE_KEY = 'taylorSongsCache'; //identificador de datos guardados en localStorage
+const TIEMPO_EXPIRACION = 24 * 60 * 60 * 1000; // 24 horas en milisegundos (caducidad de la caché)
 
 export function obtenerCache(){
 
@@ -8,12 +9,23 @@ export function obtenerCache(){
         if(!datos) return null;
 
         //si hay datos...
-        const datosParseados = JSON.parse(datos);
+        const objetoCache = JSON.parse(datos);
         //localStorage solo guarda cadenas de texto, con JSON.parse 
         //lo transformamos de vuelta a objeto
 
-        //verificación de que es un array lo que estamos devolviendo:
-        return Array.isArray(datosParseados) ? datosParseados : null;
+        //validación de timestamp y datos
+        if(!objetoCache || !objetoCache.timestamp || !Array.isArray(objetoCache.data)) {
+            return null;
+        }
+
+        //comprobación caché caducada
+        const horaActual = new Date().getTime();
+        if (horaActual - objetoCache.timestamp > TIEMPO_EXPIRACION) {
+            borrarCache();
+            return null;
+        }
+
+        return objetoCache.data;
 
     }catch(error){
         console.warn("Error al leer la caché: ", error);
@@ -23,7 +35,11 @@ export function obtenerCache(){
 }
 
 export function guardarEnCache(datos){
-    try{
+    try{ //corrección -> uso de objetos guardados en caché
+        const objetoGuardar = {
+            timestamp : new Date().getTime(),
+            data : datos
+        };
         //convierte el array de objetos de JS a un string JSON -> objeto global JSON
         localStorage.setItem(CACHE_KEY, JSON.stringify(datos));
     }catch(error){

@@ -1,17 +1,49 @@
 //Funciones importadas
 import { fetchCanciones } from './api.js';
 import { borrarCache } from './cache.js';
-import { transformCancion, filtrandoCanciones } from './logica.js';
+import { transformCanciones, filtrandoCanciones } from './logica.js';
 import { mostrarCargando, mostrarVacio, mostrarError, mostrarTarjetas, limpiarEstado } from './render.js';
 
 let listaCanciones = []; //lista global de canciones para guardar las ya "limpias"
-let errorCarga = false; //corrección -> control de fallo inicial de API
 
 
-//FUNCIÓN PRINCIPAL DE APP
+function registrarEventos(inputBuscador, botonCache, elementosDOM) {
+
+  //elementosDOM me lo pasan como objeto, tengo que desestructurarlo:
+  const contenedorEstado = elementosDOM.contenedorEstado;
+  const contenedorCanciones = elementosDOM.contenedorCanciones;
+
+  //búsqueda en tiempo real:
+  if (inputBuscador) {
+    inputBuscador.addEventListener('input', (evento) => {
+      //si la API no ha cargado canciones aún, no filtramos
+      if (listaCanciones.length === 0) return;
+
+      const textoBuscado = evento.target.value; //saca el valor (texto) que ha sido buscado
+      const cancionesFiltradas = filtrandoCanciones(listaCanciones, textoBuscado);
+
+      if (cancionesFiltradas.length === 0) {
+        limpiarEstado(contenedorCanciones); //limpia las tarjetas
+        mostrarVacio(contenedorEstado);     //muestra el mensaje de "no encontrado"
+      } else {
+        limpiarEstado(contenedorEstado);    //limpia el mensaje de "no encontrado"
+        mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
+      }
+    });
+  }
+
+  // Evento del botón de limpiar caché
+  if (botonCache) {
+    botonCache.addEventListener('click', () => {
+      borrarCache();
+      window.alert('Caché eliminada con éxito.');
+      window.location.reload();
+    });
+  }
+}
+
+
 async function iniciarApp() {
-  
-  //referencias a los elementos del DOM
   const inputBuscador = document.getElementById('buscador');
   const contenedorEstado = document.getElementById('contenedorEstado');
   const contenedorCanciones = document.getElementById('contenedorCanciones');
@@ -20,55 +52,35 @@ async function iniciarApp() {
   //mostramos el estado de carga
   mostrarCargando(contenedorEstado);
 
-  try{
-    //pedimos las canciones (información en bruto)
+  try {
+    //pedimos los datos a la API
     const cancionesBruto = await fetchCanciones();
 
-    //las "limpiamos" con la función de logic
-    listaCanciones = transformCancion(cancionesBruto);
+    //limpiamos y deduplicamos con logica.js
+    listaCanciones = transformCanciones(cancionesBruto);
 
-    //usamos la función de render.js para vaciar lo que pudiera estar mostrandose sobre el estado
+    //renderizamos las tarjetas y quitamos los estados que hubieran
     limpiarEstado(contenedorEstado);
     mostrarTarjetas(contenedorCanciones, listaCanciones);
 
-  } catch (error){
-    errorCarga = true;
+  } catch (error) {
+    limpiarEstado(contenedorCanciones);
     mostrarError(contenedorEstado, error.message);
-  }
 
-
-  //EVENTOS
-  //búsqueda en tiempo real
-  if(inputBuscador){
-    inputBuscador.addEventListener('input', (evento) => {
-
-    //corrección -> Si la carga inicial falló, no permitimos que el input borre el mensaje de error
-    if (errorCarga) return;
-
-    //le pasamos el texto introducido para que filtre todas las canciones
-    const textoBuscado = evento.target.value;
-    const cancionesFiltradas = filtrandoCanciones(listaCanciones,textoBuscado);
-
-    //si no se encuentran mostramos el mensaje correspondiente
-    if(cancionesFiltradas.length === 0){
-      limpiarEstado(contenedorCanciones); //limpio de canciones anteriores
-      mostrarVacio(contenedorEstado);
-    }else{
-      limpiarEstado(contenedorEstado); //quitamos los mensajes que hubiera
-      mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
+    //corrección -> permite al usuario pulsar "Reintentar" sin recargar toda la web
+    const botonReintentar = document.getElementById('botonReintentar');
+    if (botonReintentar) {
+      botonReintentar.addEventListener('click', () => {
+        iniciarApp();
+      });
     }
-
-    });
   }
 
-  //evento botón de limpiar caché  
-  if(botonCache){
-    botonCache.addEventListener('click', () => {
-      borrarCache();
-      window.alert("Caché eliminada.")
-      window.location.reload(); //recarga la página web 
-    });
-  }
+  registrarEventos(inputBuscador, botonCache, {
+    contenedorEstado,
+    contenedorCanciones
+  }); //esto se lo paso como objeto (ambos contenedores)
 }
+
 
 iniciarApp();
