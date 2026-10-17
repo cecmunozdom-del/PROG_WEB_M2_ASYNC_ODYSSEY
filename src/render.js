@@ -26,10 +26,22 @@ export function mostrarError(contenedor, mensaje){
 }
 
 
+//corrección -> sirve para no manipular innerHTML desde main.js
+//organización -> sólo render.js manipula la vista de la app
+export function limpiarEstado(contenedor) {
+  contenedor.innerHTML = '';
+}
+
+
 //tarjetas para las canciones que se hayan encontrado:
 export function mostrarTarjetas(contenedor, canciones){
     
     contenedor.innerHTML=''; //limpiamos por si hubiera algo previo
+    //control errores por si no hay canciones
+    if(canciones.length == 0 || !canciones){
+        mostrarVacio(contenedor); //lamará a mostrarVacio()
+        return;
+    }
 
     const htmlCanciones = canciones.map((cancion) => 
         `<div class="tarjetaCancion">

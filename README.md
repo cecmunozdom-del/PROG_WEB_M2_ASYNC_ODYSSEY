@@ -5,11 +5,6 @@ Misión M2 · Async Odyssey — Web Development I.
 ## Cómo probarlo
 Abre el proyecto en tu navegador y usa el buscador para encontrar la canción (o canciones) de Taylor Swift que coincidan con tu búsqueda. Si no estás familiarizado con su discografía, prueba a escibir palabras genéricas en inglés, como 'Love', 'You', 'My'. La web devolverá todas las canciones cuyo título contenga lo que haya escrito el usuario.
 
-Posibles funcionalidades a futuro:
-    - Escribir título de un albúm y que devuelve todas las canciones que contiene.
-    - Escribir parte de una letra y que devuelva la canción que corresponde.
-
-
 ## Uso de IA
 Al inicio del proyecto, he usado la IA de Gemini para entender mejor tanto la estructura del proyecto como algunos conceptos que no había comprendido del todo del tema 2 (le pedí definiciones y ejemplos de async y await, de export, etc).
 
@@ -21,7 +16,7 @@ Para el main.js me dió algunas instrucciones, correcciones, e ideas muy buenas.
 
 También me ayudó a la hora de hacer el bonus, ya que a pesar de que había investigado cómo funcionaba localStorage para el proyecto anterior, no sabía muy bien cómo hacer el proceso de guardar datos para este.
 
-Hacia la parte final del trabajo, Gemini también me ayudó a corregir los errores que me fui encontrando cuando comencé a probar la app completa por primera vez.
+Hacia la parte final del trabajo, Gemini también me ayudó a corregir los errores que me fui encontrando cuando comencé a probar la app completa por primera vez. Por ejemplo, al aplicar las correcciones que me dió webiArena, me ayudó a entender porqué es mejor usar localStorage.removeItem() que localStorage.clear(), ya que la segunda borra toda la memoria del navegador, no solo la de esta app en concreto con las canciones. Otro ejemplo, webiArena me había bajado bastantes puntos por robustez, así que Gemini me recomendó poner más controles para los datos en varios de los scripts, intentando mejorar mi app en ese aspecto. También me ayudó a gestionar el flujo de el main.js, ya que estaba empeñada en poner los eventos fuera de iniciarApp(), y me dijo cómo podía hacer la función para evitar inyecciones XSS debido a los innerHTML del programa.
 
 Algunos ejemplos de prompts:
 "Antes de empezar, dime cómo suele ser la estructura de este tipo de proyectos, y explícame los conceptos básicos sobre async y wait".

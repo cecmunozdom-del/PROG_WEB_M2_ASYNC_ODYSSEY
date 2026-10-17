@@ -1,9 +1,11 @@
 //Funciones importadas
 import { fetchCanciones } from './api.js';
+import { borrarCache } from './cache.js';
 import { transformCancion, filtrandoCanciones } from './logica.js';
-import { mostrarCargando, mostrarVacio, mostrarError, mostrarTarjetas } from './render.js';
+import { mostrarCargando, mostrarVacio, mostrarError, mostrarTarjetas, limpiarEstado } from './render.js';
 
 let listaCanciones = []; //lista global de canciones para guardar las ya "limpias"
+let errorCarga = false; //corrección -> control de fallo inicial de API
 
 
 //FUNCIÓN PRINCIPAL DE APP
@@ -22,22 +24,26 @@ async function iniciarApp() {
     //pedimos las canciones (información en bruto)
     const cancionesBruto = await fetchCanciones();
 
-    //las "limpiamos" con la función de logic:
+    //las "limpiamos" con la función de logic
     listaCanciones = transformCancion(cancionesBruto);
 
-    //ocultamos el mensaje de carga
-    contenedorEstado.innerHTML = '';
-
-    //ponemos las tarjetas de las canciones que hayan salido
+    //usamos la función de render.js para vaciar lo que pudiera estar mostrandose sobre el estado
+    limpiarEstado(contenedorEstado);
     mostrarTarjetas(contenedorCanciones, listaCanciones);
 
   } catch (error){
+    errorCarga = true;
     mostrarError(contenedorEstado, error.message);
   }
 
+
   //EVENTOS
   //búsqueda en tiempo real
-  inputBuscador.addEventListener('input', (evento) => {
+  if(inputBuscador){
+    inputBuscador.addEventListener('input', (evento) => {
+
+    //corrección -> Si la carga inicial falló, no permitimos que el input borre el mensaje de error
+    if (errorCarga) return;
 
     //le pasamos el texto introducido para que filtre todas las canciones
     const textoBuscado = evento.target.value;
@@ -45,21 +51,24 @@ async function iniciarApp() {
 
     //si no se encuentran mostramos el mensaje correspondiente
     if(cancionesFiltradas.length === 0){
-      contenedorCanciones.innerHTML = ''; //limpio de canciones anteriores
+      limpiarEstado(contenedorCanciones); //limpio de canciones anteriores
       mostrarVacio(contenedorEstado);
     }else{
-      contenedorEstado.innerHTML = ''; //quitamos los mensajes que hubiera
+      limpiarEstado(contenedorEstado); //quitamos los mensajes que hubiera
       mostrarTarjetas(contenedorCanciones, cancionesFiltradas);
     }
 
-  });
+    });
+  }
 
   //evento botón de limpiar caché  
-  botonCache.addEventListener('click', () => {
-    localStorage.clear(); //se vacía la memoria que estuviese guardada del navegador
-    window.alert("Caché eliminada.")
-    window.location.reload(); //recarga la página web 
-  });
+  if(botonCache){
+    botonCache.addEventListener('click', () => {
+      borrarCache();
+      window.alert("Caché eliminada.")
+      window.location.reload(); //recarga la página web 
+    });
+  }
 }
 
 iniciarApp();
