@@ -3,7 +3,7 @@
 Misión M2 · Async Odyssey — Web Development I.
 
 ## Cómo probarlo
-Abre el proyecto en tu navegador y usa el buscador para encontrar la canción (o canciones) de Taylor Swift que coincidan con tu búsqueda. Si no estás familiarizado con su discografía, prueba a escibir palabras genéricas en inglés, como 'Love', 'You', 'My'. La web devolverá todas las canciones cuyo título contenga lo que haya escrito el usuario.
+Lanza la app y usa el buscador para encontrar la canción (o canciones) de Taylor Swift que coincidan con tu búsqueda. Si no estás familiarizado con su discografía, prueba a escibir palabras genéricas en inglés, como 'Love', 'You', 'My'. La web devolverá todas las canciones cuyo título contenga lo que haya escrito el usuario. Además, si se busca el título de un álbum, devolverá todas las canciones posibles de éste.
 
 ## Uso de IA
 Al inicio del proyecto, he usado la IA de Gemini para entender mejor tanto la estructura del proyecto como algunos conceptos que no había comprendido del todo del tema 2 (le pedí definiciones y ejemplos de async y await, de export, etc).

@@ -65,18 +65,25 @@ export function transformCancion(canciones){
 }
 
 
-export function filtrandoCanciones(canciones, queryCancionPedida=''){
+export function filtrandoCanciones(canciones, queryPedida=''){
 
   if(!Array.isArray(canciones)) return [];
 
-  const cancionPedida = queryCancionPedida.trim().toLowerCase(); //quitamos espacios y mayúsculas
+  const cancionPedida = queryPedida.trim().toLowerCase(); //quitamos espacios y mayúsculas
   if(!cancionPedida) return canciones; //si no hay búsqueda devuelvo todas las canciones
 
   //filtro por todas las canciones del array si se cumple la condición (devuelve un nuevo array)
   return canciones.filter((cancion) => {
     const titulo = cancion.titulo ? cancion.titulo.toLowerCase() : '';
-    return titulo.includes(cancionPedida);
+    const album = cancion.album ? cancion.album.toLowerCase() : '';
+
+    //comprobamos si se ha pedido una canción concreta o un álbum
+    const coincideTitulo = titulo.includes(cancionPedida);
+    const coincideAlbum = album.includes(cancionPedida);
+
+    return coincideTitulo || coincideAlbum;
   });
+
 }
   
   

@@ -58,6 +58,7 @@ body {
 }
 
 .header > p {
+  font-family: folkmore;
   margin-top: 5px;
   font-size: 2em;
 }
@@ -93,6 +94,7 @@ main {
   background-color: rgba(0, 0, 0, 0.6);
   color: var(--text-color);
   font-size: 2em;
+  font-family: folkmore;
   outline: none;
 }
 
